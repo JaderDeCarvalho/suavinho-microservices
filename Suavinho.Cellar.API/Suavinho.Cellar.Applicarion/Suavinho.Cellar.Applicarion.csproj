@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="InboundInterfaces\**" />
+    <EmbeddedResource Remove="InboundInterfaces\**" />
+    <None Remove="InboundInterfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Suavinho.Cellar.Commons\Suavinho.Cellar.Commons.csproj" />
+    <ProjectReference Include="..\Suvainho.Cellar.Domain\Suavinho.Cellar.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
