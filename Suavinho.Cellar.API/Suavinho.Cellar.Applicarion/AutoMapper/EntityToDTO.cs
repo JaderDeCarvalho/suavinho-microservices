@@ -14,8 +14,11 @@ namespace Suavinho.Cellar.Application.AutoMapper
     {
         public EntityToDTO()
         {
-            CreateMap<CellarEntity, CellarDTO>();
-            CreateMap<WineEntity, WineDTO>();
+            CreateMap<CellarEntity, CellarDTO>()
+                .ForMember(x => x.Wines, y => y.MapFrom(w => w.CellarWine.Select(z => z.Wine)));
+
+            CreateMap<WineEntity, WineDTO>()
+                .ForMember(x => x.Cellars, y => y.MapFrom(w => w.CellarWine.Select(z => z.Cellar)));
         }
     }
 }

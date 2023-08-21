@@ -35,6 +35,12 @@ namespace Suavinho.Cellar.API.Controllers
             try
             {
                 var cellarDto = _cellarService.GetCellar(id);
+
+                Parallel.ForEach(cellarDto.Wines, wine =>
+                {
+                    wine.Cellars = new List<CellarDTO>();
+                });
+
                 return Ok(cellarDto);
             }
             catch (Exception ex)

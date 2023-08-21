@@ -31,7 +31,11 @@ namespace Suavinho.Cellar.Infrastructure.Model.Repositories
 
         public CellarEntity GetCellar(int cellarId)
         {
-            return _cellarDataContext.Cellars.FirstOrDefault(c => c.Id == cellarId);
+            var cellarWines = _cellarDataContext.CellarWines.ToList();
+            var cellars = _cellarDataContext.Cellars.ToList();
+            var wines = _cellarDataContext.Wines.ToList();
+            var cellar =  _cellarDataContext.Cellars.FirstOrDefault(c => c.Id == cellarId);
+            return cellar;
         }
 
         public void UpdateCellar(CellarEntity cellar)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Suavinho.Cellar.Applicarion.Contracts.Inbound
 {
-    public class IWineService
+    public interface IWineService
     {
     }
 }

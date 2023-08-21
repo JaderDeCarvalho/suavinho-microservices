@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Suavinho.Cellar.Domain.Entity
 {
-    public class CellarWine
+    public partial class CellarWine
     {
-        public int Id { get; set; }
-        public Wine Wine { get; set; }
-        public Cellar Cellar { get; set; }
-        public int Quantity { get; set; }
+        public virtual int CellarId { get; set; }
+        public virtual int WineId { get; set; }
+
+        public virtual Cellar Cellar { get; set; }
+        public virtual Wine Wine { get; set; }
     }
 }

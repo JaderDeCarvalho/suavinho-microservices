@@ -13,8 +13,22 @@ namespace Suavinho.Cellar.Infrastructure.Model.EFCore
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost; Database=db_cellar; Username=postgres; Password=senha-forte-kkkk!");
-            //optionsBuilder.UseNpgsql("Host=172.17.0.3; Database=db_cellar; Username=postgres; Password=senha-forte-kkkk!");
+            optionsBuilder.UseNpgsql("Host=localhost; Database=db_cellar; Username=postgres; Password=strongPassword");
+            //optionsBuilder.UseNpgsql("Host=172.17.0.3; Database=db_cellar; Username=postgres; Password=strongPassword");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CellarWine>() // composite primary key
+                .HasKey(p => new { p.CellarId, p.WineId });
+            modelBuilder.Entity<CellarWine>()
+                        .HasOne(a => a.Cellar)
+                        .WithMany(c => c.CellarWine)
+                        .HasForeignKey(fk => fk.CellarId);
+            modelBuilder.Entity<CellarWine>()
+                        .HasOne(a => a.Wine)
+                        .WithMany(c => c.CellarWine)
+                        .HasForeignKey(fk => fk.WineId);
         }
 
         public DbSet<CellarEntity> Cellars { get; set; }
