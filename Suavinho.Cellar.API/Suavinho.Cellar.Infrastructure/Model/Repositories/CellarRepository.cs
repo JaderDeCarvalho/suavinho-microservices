@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Suavinho.Cellar.Infrastructure.Model.Repositories
 {
@@ -31,10 +32,10 @@ namespace Suavinho.Cellar.Infrastructure.Model.Repositories
 
         public CellarEntity GetCellar(int cellarId)
         {
-            var cellarWines = _cellarDataContext.CellarWines.ToList();
-            var cellars = _cellarDataContext.Cellars.ToList();
-            var wines = _cellarDataContext.Wines.ToList();
-            var cellar =  _cellarDataContext.Cellars.FirstOrDefault(c => c.Id == cellarId);
+            var cellar =  _cellarDataContext.Cellars
+                .Include(c => c.CellarWine)
+                .ThenInclude(cw => cw.Wine)
+                .FirstOrDefault(c => c.Id == cellarId);
             return cellar;
         }
 

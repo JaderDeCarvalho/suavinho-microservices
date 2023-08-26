@@ -1,4 +1,6 @@
 using Suavinho.Cellar.API.Configurations;
+using Suavinho.Cellar.Applicarion.Contracts.Inbound;
+using Suavinho.Cellar.Applicarion.Services;
 using Suavinho.Cellar.Application.Contracts.Inbound;
 using Suavinho.Cellar.Application.Contracts.Outbound;
 using Suavinho.Cellar.Application.Services;
@@ -23,12 +25,14 @@ builder.Services.AddDbContext<CellarDataContext>();
 #region SERVICES INJECTION
 
 builder.Services.AddScoped<ICellarService, CellarService>();
+builder.Services.AddScoped<IWineService, WineService>();
 
 #endregion
 
 #region REPOSITORIES INJECTION
 
 builder.Services.AddScoped<ICellarRepository, CellarRepository>();
+builder.Services.AddScoped<IWineRepository, WineRepository>();
 
 #endregion
 

@@ -1,19 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Suavinho.Cellar.Applicarion.Contracts.Inbound;
+using Suavinho.Cellar.Applicarion.Services;
 using Suavinho.Cellar.Application.DTO;
 
 namespace Suavinho.Cellar.API.Controllers
 {
-    //[Route("api/[controller]")]
+
     [ApiController]
     public class WineController : ControllerBase
     {
+        private IWineService _wineService { get; }
+
+        public WineController(IWineService wineService)
+        {
+            _wineService = wineService;
+        }
+
         [Route("api/Cellar/{cellarId}/Wine")]
         [HttpGet]
         public IActionResult Get(int cellarId)
         {
             try
             {
-                return Ok();
+                var wineDtos = _wineService.GetAll(cellarId);
+                return Ok(wineDtos);
             }
             catch (Exception ex)
             {
@@ -27,7 +37,14 @@ namespace Suavinho.Cellar.API.Controllers
         {
             try
             {
-                return Ok();
+                var wineDtos = _wineService.GetWine(cellarId, wineId);
+
+                Parallel.ForEach(wineDtos.Cellars, cellar =>
+                {
+                    cellar.Wines = new List<WineDTO>();
+                });
+
+                return Ok(wineDtos);
             }
             catch (Exception ex)
             {
@@ -41,6 +58,7 @@ namespace Suavinho.Cellar.API.Controllers
         {
             try
             {
+                _wineService.CreateWine(wineDto, cellarId);
                 return Ok();
             }
             catch (Exception ex)
@@ -55,6 +73,7 @@ namespace Suavinho.Cellar.API.Controllers
         {
             try
             {
+                _wineService.UpdateWine(wineDto,cellarId,wineId);
                 return Ok();
             }
             catch (Exception ex)
@@ -65,10 +84,11 @@ namespace Suavinho.Cellar.API.Controllers
 
         [Route("api/Cellar/{cellarId}/Wine/{wineId}")]
         [HttpDelete]
-        public IActionResult Delete(int cellarId, int wineId)
+        public IActionResult Delete([FromBody] bool isDeleteAll, int cellarId, int wineId)
         {
             try
             {
+                _wineService.DeleteCellar(isDeleteAll,cellarId,wineId);
                 return Ok();
             }
             catch (Exception ex)
