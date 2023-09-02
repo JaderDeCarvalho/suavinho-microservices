@@ -13,8 +13,7 @@ namespace Suavinho.Cellar.Infrastructure.Model.EFCore
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost; Database=db_cellar; Username=postgres; Password=strongPassword");
-            //optionsBuilder.UseNpgsql("Host=172.17.0.3; Database=db_cellar; Username=postgres; Password=strongPassword");
+            optionsBuilder.UseSqlServer("Server=localhost; Database=CellarDB; User Id=sa; Password=StrongPassword!; TrustServerCertificate=true; MultipleActiveResultSets=true;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

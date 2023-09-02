@@ -16,7 +16,7 @@ namespace Suavinho.Cellar.Application.DTO
         public int Vintage { get; set; }
         public string Grapes { get; set; }
         public bool IsBarrelAged { get; set; }
+        public int Quantity { get; set; }
         public IEnumerable<CellarDTO> Cellars { get; set; }
-
     }
 }

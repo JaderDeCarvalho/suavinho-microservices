@@ -1,4 +1,5 @@
-﻿using Suavinho.Cellar.Application.Contracts.Outbound;
+﻿using Microsoft.EntityFrameworkCore;
+using Suavinho.Cellar.Application.Contracts.Outbound;
 using Suavinho.Cellar.Domain.Entity;
 using Suavinho.Cellar.Infrastructure.Model.EFCore;
 using System;
@@ -65,10 +66,12 @@ namespace Suavinho.Cellar.Infrastructure.Model.Repositories
 
         public void DeleteWine(bool isDeleteAll, int cellarId, int wineId)
         {
-            var cellarWine = _cellarDataContext.CellarWines.FirstOrDefault(cw => cw.CellarId == cellarId && cw.WineId == wineId);
+            var cellarWine = _cellarDataContext.CellarWines
+                .Include(cw => cw.Wine)
+                .FirstOrDefault(cw => cw.CellarId == cellarId && cw.WineId == wineId);
 
-            if (isDeleteAll)
-                _cellarDataContext.CellarWines.Remove(cellarWine);
+            if (isDeleteAll || cellarWine.Wine.Quantity == 1)
+                _cellarDataContext.Wines.Remove(cellarWine.Wine);
             else
                 cellarWine.Wine.Quantity--;   
 
